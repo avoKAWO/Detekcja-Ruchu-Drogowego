@@ -1,6 +1,6 @@
 # 🛣️ Detekcja Ruchu Drogowego
 
-Ten projekt dotyczy badania i implementacji systemu detekcji ruchu drogowego bazując na analizie zdjęć. Wykorzystuje sieci neuronowe YOLO w celu identyfikacji bezpieczeństwa na drodze.
+Ten projekt dotyczy badania i implementacji systemu detekcji ruchu drogowego bazując na analizie zdjęć. Wykorzystuje sieci neuronowe YOLO w celu identyfikacji obiektów ruchu drogowego.
 
 ---
 

@@ -6,18 +6,35 @@ import cv2
 from PIL import Image
 import io
 
-# 🔁 Załaduj model tylko raz
+# 🔁 Ładujemy model tylko raz
 @st.cache_resource
 def load_model():
     return YOLO("best.pt")
 
 model = load_model()
 
-# 🎨 Funkcja do oznaczenia obrazu
+# 🧠 Funkcja do skalowania bboxów
+def scale_detections(detections: sv.Detections, original_shape, resized_shape):
+    scale_x = original_shape[1] / resized_shape[1]
+    scale_y = original_shape[0] / resized_shape[0]
+
+    detections.xyxy[:, [0, 2]] *= scale_x
+    detections.xyxy[:, [1, 3]] *= scale_y
+
+    return detections
+
+# 🔍 Detekcja i rysowanie
 def detect_and_annotate(image: np.ndarray) -> np.ndarray:
-    results = model(image, verbose=False)[0]
+    original_shape = image.shape[:2]
+    resized_image = cv2.resize(image, (640, 640))
+
+    results = model(resized_image, verbose=False)[0]
     detections = sv.Detections.from_ultralytics(results).with_nms()
 
+    # Skalowanie bboxów do oryginalnych wymiarów
+    detections = scale_detections(detections, original_shape, resized_image.shape[:2])
+
+    # Rysowanie na oryginalnym obrazie
     box_annotator = sv.BoxAnnotator()
     label_annotator = sv.LabelAnnotator()
 

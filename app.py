@@ -9,7 +9,7 @@ import io
 # 🔁 Załaduj model tylko raz
 @st.cache_resource
 def load_model():
-    return YOLO("best_1.pt")
+    return YOLO("best.pt")
 
 model = load_model()
 
